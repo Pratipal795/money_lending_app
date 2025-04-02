@@ -1,0 +1,9 @@
+<tr id="loan_<%= loan_adjustment.id %>">
+  <td><%= loan_adjustment.id %></td>
+  <td><%= loan_adjustment.loan_id %></td>
+  <td><%= loan_adjustment.adjusted_amount %></td>
+  <td><%= loan_adjustment.adjusted_interest_rate %></td>
+  <td><%= loan_adjustment.status.humanize %></td>
+  <td><%= time_ago_in_words(loan_adjustment.created_at) %></td>
+  <td><%= time_ago_in_words(loan_adjustment.updated_at) %></td>
+</tr>

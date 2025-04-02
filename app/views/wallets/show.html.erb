@@ -1,0 +1,7 @@
+<h1>Your Wallet</h1>
+
+<div class="wallet-details">
+  <p><strong>Balance:</strong> <%= number_to_currency(@wallet.balance) %></p>
+  <p><strong>Created At:</strong> <%= @wallet.created_at.strftime("%B %d, %Y %I:%M %p") %></p>
+  <p><strong>Last Updated:</strong> <%= @wallet.updated_at.strftime("%B %d, %Y %I:%M %p") %></p>
+</div>

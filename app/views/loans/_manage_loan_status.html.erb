@@ -1,0 +1,31 @@
+<% loans.each do |loan| %>
+  <tr>
+    <td><%= loan.id %></td>
+    <td><%= loan.amount %></td>
+    <td><%= loan.interest_rate %>%</td>
+    <td><%= loan.total_amount %></td>
+    <td><%= loan.status.humanize %></td>
+    <td><%= time_ago_in_words(loan.created_at) %></td>
+    <td><%= time_ago_in_words(loan.updated_at) %></td>
+    <td>
+      <div class="d-flex flex-wrap gap-2">
+        <% if loan.approved? %>
+          <%= link_to "Reject Loan", confirm_loan_path(loan, type: 'rejected'), data: { turbo_method: :patch, turbo_confirm: "Are you sure? You want to Reject this Loan ?" }, class: "btn btn-danger btn-sm" %>
+          <%= link_to "Confirm Loan", confirm_loan_path(loan, type: 'confirmed'), data: { turbo_method: :patch, turbo_confirm: "Are you sure? You want to Confirm this Loan ?" }, class: "btn btn-success btn-sm" %>
+        <% elsif loan.waiting_for_adjustment_acceptance? %>
+          <% latest_adjustment = loan.loan_adjustments.order(created_at: :desc).first %>
+          <% if latest_adjustment.present? %>
+            <%= link_to "Check Adjusted Loan", loan_adjustment_path(latest_adjustment), class: "btn btn-dark btn-sm" %>
+            <%= link_to "Approve Adjustment", adjust_loan_loan_adjustment_path(latest_adjustment, type: 'approved'), data: { turbo_method: :patch, turbo_confirm: "Are you sure? You want to Approve this Loan Adjusment ?" }, class: "btn btn-success btn-sm" %>
+            <%= link_to "Reject Adjustment", adjust_loan_loan_adjustment_path(latest_adjustment, type: 'rejected'), data: { turbo_method: :patch, turbo_confirm: "Are you sure? You want to Reject this Loan Adjusment ?" }, class: "btn btn-danger btn-sm" %>
+            <%= link_to "Re-Adjustment", adjust_loan_loan_adjustment_path(latest_adjustment, type: 're_adjustment'), data: { turbo_method: :patch, turbo_confirm: "Are you sure? You want to Re-Adjustment for this Loan Adjusment ?" }, class: "btn btn-secondary btn-sm" %>
+          <% end %>
+        <% elsif loan.open? %>
+          <%= link_to "Repay", repay_loan_path(loan), data: { turbo_method: :patch, turbo_confirm: "Your repay amount is = #{loan.valid_repay_amount}" }, class: "btn btn-success btn-sm" %>
+        <% else %>
+          <%= 'none' %>
+        <% end %>
+      </div>
+    </td>
+  </tr>
+<% end %>

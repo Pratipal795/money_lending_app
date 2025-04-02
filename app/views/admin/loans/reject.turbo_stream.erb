@@ -1,0 +1,12 @@
+<turbo-stream action="update" target="flash">
+  <template>
+    <div class="alert alert-success"><%= flash[:notice] %></div>
+  </template>
+</turbo-stream>
+
+
+<turbo-stream action="replace" target="loan_<%= @loan.id %>">
+  <template>
+    <%= render partial: "admin/loans/loan_row", locals: {loan: @loan}, formats: :html %>
+  </template>
+</turbo-stream>

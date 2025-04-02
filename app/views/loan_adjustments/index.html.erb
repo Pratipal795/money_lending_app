@@ -1,0 +1,21 @@
+<div class="container mt-4">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Loan ID</th>
+          <th>Adjusted Amount</th>
+          <th>Adjusted Interest Rate</th>
+          <th>Status</th>
+          <th>Created at</th>
+          <th>Updated at</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @loan_adjustments.each do |loan_adjustment| %>
+          <%= render partial: "loan_adjustments/loan_adjustment_partial", locals: { loan_adjustment: loan_adjustment } %>
+        <% end %>
+      </tbody>
+    </table>
+</div>
+

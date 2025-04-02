@@ -1,0 +1,25 @@
+<div class="container mt-4">
+  <% if user_signed_in? && current_user.admin? %>
+    <table class="table">
+      <%= render partial: "loans/loan_column" %>
+      <tbody>
+        <% @loans.each do |loan| %>
+          <%= render partial: "admin/loans/loan_row", locals: { loan: loan } %>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <h3>Your Loans</h3>
+    <%= link_to "Request Loan", new_loan_path, class: "btn btn-primary" %>
+    <% unless @loans.empty? %>
+      <table class="table">
+        <%= render partial: "loans/loan_column" %>
+        <tbody>
+          <%= render partial: "loans/manage_loan_status", locals: { loans: @loans } %>
+        </tbody>
+      </table>
+    <% else %>
+      <h3>No Loans Added here</h3>
+    <% end %>
+  <% end %>
+</div>

@@ -1,0 +1,13 @@
+<h1>Your Loan Adjustment Detail</h1>
+
+<div class="wallet-details">
+  <p><strong>Adjusted Amount:</strong> <%= number_to_currency(@loan_adjustment.adjusted_amount) %></p>
+  <p><strong>Adjusted Interest Rate:</strong> <%= number_to_currency(@loan_adjustment.adjusted_interest_rate) %></p>
+  <p><strong>Status:</strong> <%= @loan_adjustment.status %></p>
+  <p><strong>Created At:</strong> <%= @loan_adjustment.created_at.strftime("%B %d, %Y %I:%M %p") %></p>
+  <p><strong>Last Updated:</strong> <%= @loan_adjustment.updated_at.strftime("%B %d, %Y %I:%M %p") %></p>
+</div>
+
+<div class="mt-3">
+  <%= link_to "Back", loans_path, class: "btn btn-secondary" %>
+</div>

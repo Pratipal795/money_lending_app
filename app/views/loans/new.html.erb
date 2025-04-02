@@ -1,0 +1,14 @@
+<h1>Request a Loan</h1>
+<%= form_with model: @loan, local: true do |f| %>
+  <div>
+    <%= f.label :amount, "Loan Amount" %>
+    <%= f.number_field :amount %>
+  </div>
+  <div>
+    <%= f.label :interest_rate, "Interest Rate (%)" %>
+    <%= f.number_field :interest_rate %>
+  </div>
+  <div>
+    <%= f.submit "Request Loan" %>
+  </div>
+<% end %>

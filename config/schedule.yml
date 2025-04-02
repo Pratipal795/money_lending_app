@@ -1,0 +1,4 @@
+interest_rate_calculation_worker:
+  cron: "*/1 * * * *"  # Runs every 1 minute
+  class: "InterestCalculatorJob"
+  queue: default
