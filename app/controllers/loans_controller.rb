@@ -1,6 +1,6 @@
 class LoansController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_loan, only: [:reject, :confirm, :request_readjustment]
+  before_action :set_loan, only: [:confirm, :show]
 
   def index
     @loans = current_user.admin? ? Loan.all : current_user.loans
@@ -10,6 +10,10 @@ class LoansController < ApplicationController
     @loan = Loan.new
   end
 
+  def show
+
+  end
+
   def create
     @loan = current_user.loans.new(loan_params)
     if @loan.save
@@ -17,11 +21,6 @@ class LoansController < ApplicationController
     else
       render :new
     end
-  end
-
-  def reject
-    @loan.reject!
-    redirect_to loans_path, alert: "Loan rejected."
   end
 
   def confirm
@@ -50,11 +49,6 @@ class LoansController < ApplicationController
     redirect_to loans_path, notice: "Loan repaid successfully."
   rescue StandardError => e
     redirect_to loans_path, alert: "Error processing repayment: #{e.message}"
-  end
-
-  def request_readjustment
-    @loan.request_readjustment!
-    redirect_to loans_path, notice: "Readjustment requested."
   end
 
   private

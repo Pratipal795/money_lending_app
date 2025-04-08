@@ -67,4 +67,4 @@ gem "bootstrap"
 gem "sassc-rails"
 gem 'jquery-rails'
 gem "sidekiq-cron"
-gem "hotwire-rails", "~> 0.1.3"
+# gem "hotwire-rails", "~> 0.1.3"

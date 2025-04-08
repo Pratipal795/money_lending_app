@@ -1,13 +1,17 @@
 <div class="container mt-4">
   <% if user_signed_in? && current_user.admin? %>
-    <table class="table">
-      <%= render partial: "loans/loan_column" %>
-      <tbody>
-        <% @loans.each do |loan| %>
-          <%= render partial: "admin/loans/loan_row", locals: { loan: loan } %>
-        <% end %>
-      </tbody>
-    </table>
+    <% if Loan.exists? %>
+      <table class="table">
+        <%= render partial: "loans/loan_column" %>
+        <tbody>
+          <% @loans.each do |loan| %>
+            <%= render partial: "admin/loans/loan_row", locals: { loan: loan } %>
+          <% end %>
+        </tbody>
+      </table>
+    <% else %>
+      <h1>No Loans Found</h1>
+    <% end %>
   <% else %>
     <h3>Your Loans</h3>
     <%= link_to "Request Loan", new_loan_path, class: "btn btn-primary" %>

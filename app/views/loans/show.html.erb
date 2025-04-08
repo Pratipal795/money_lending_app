@@ -1,0 +1,60 @@
+<div class="container mt-5">
+  <h1 class="mb-4">Loan Details</h1>
+
+  <div class="card mb-4">
+    <div class="card-body">
+      <p><strong>Loan ID:</strong> <%= @loan.id %></p>
+      <p><strong>User ID:</strong> <%= @loan.user_id %></p>
+      <p><strong>Amount:</strong> <%= number_to_currency(@loan.amount) %></p>
+      <p><strong>Interest Rate:</strong> <%= @loan.interest_rate %>%</p>
+      <p><strong>Total Amount:</strong> <%= number_to_currency(@loan.total_amount) %></p>
+      <p><strong>Status:</strong> <span class="badge bg-primary"><%= @loan.status.titleize %></span></p>
+      <p><strong>Confirmation:</strong> 
+        <% if @loan.is_confirmed %>
+          <span class="badge bg-success">Confirmed</span>
+        <% else %>
+          <span class="badge bg-secondary">Not Confirmed</span>
+        <% end %>
+      </p>
+      <p><strong>Created At:</strong> <%= @loan.created_at.strftime("%B %d, %Y") %></p>
+      <p><strong>Updated At:</strong> <%= @loan.updated_at.strftime("%B %d, %Y") %></p>
+    </div>
+  </div>
+
+  <h2 class="mb-3">Loan Adjustments</h2>
+
+  <% if @loan.loan_adjustments.any? %>
+    <table class="table table-striped table-bordered table-hover">
+      <thead class="table-dark">
+        <tr>
+          <th>ID</th>
+          <th>Adjusted Amount</th>
+          <th>Adjusted Interest Rate</th>
+          <th>Status</th>
+          <th>Created At</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @loan.loan_adjustments.each do |adjustment| %>
+          <tr>
+            <td><%= adjustment.id %></td>
+            <td><%= number_to_currency(adjustment.adjusted_amount) %></td>
+            <td><%= adjustment.adjusted_interest_rate %>%</td>
+            <td>
+              <% status_class = case adjustment.status
+                 when "accepted" then "bg-danger"
+                 when "pending" then "bg-danger"
+                 when "rejected" then "bg-danger"
+                 when "readjustment_requested" then "bg-danger"
+              end %>
+              <span class="badge <%= status_class %>"><%= adjustment.status.titleize %></span>
+            </td>
+            <td><%= adjustment.created_at.strftime("%B %d, %Y") %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <div class="alert alert-info">No adjustments found for this loan.</div>
+  <% end %>
+</div>

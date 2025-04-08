@@ -12,7 +12,7 @@ class Loan < ApplicationRecord
     closed: 6
   }
 
-  validates :amount, :interest_rate, presence: true
+  validates :amount, :interest_rate, presence: true, numericality: { greater_than: 0 }
 
   after_create :set_requested_status
   after_update :transfer_funds_if_open, if: :saved_change_to_status?

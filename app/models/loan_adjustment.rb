@@ -7,4 +7,8 @@ class LoanAdjustment < ApplicationRecord
     rejected: 2, # User rejected the adjustment
     readjustment_requested: 3 # User requested another adjustment
   }
+
+  validates :adjusted_amount, numericality: { greater_than: 0 }
+  validates :adjusted_interest_rate, numericality: { greater_than: 0 }
+
 end

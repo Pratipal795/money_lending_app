@@ -1,14 +1,36 @@
-<h1>Request a Loan</h1>
-<%= form_with model: @loan, local: true do |f| %>
-  <div>
-    <%= f.label :amount, "Loan Amount" %>
-    <%= f.number_field :amount %>
+<h1 class="mb-4">Request a Loan</h1>
+
+<%= form_with model: @loan, data: { turbo: false }, html: { class: "needs-validation" } do |f| %>
+  <% if @loan.errors.any? %>
+    <div class="alert alert-danger">
+      <h5>There were some errors with your submission:</h5>
+      <ul>
+        <% @loan.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-3">
+    <%= f.label :amount, "Loan Amount", class: "form-label" %>
+    <%= f.number_field :amount, class: "form-control #{'is-invalid' if @loan.errors[:amount].present?}", required: true, step: 0.01 %>
+    <% if @loan.errors[:amount].present? %>
+      <div class="invalid-feedback d-block">
+        <%= @loan.errors[:amount].first %>
+      </div>
+    <% end %>
   </div>
-  <div>
-    <%= f.label :interest_rate, "Interest Rate (%)" %>
-    <%= f.number_field :interest_rate %>
+
+  <div class="mb-3">
+    <%= f.label :interest_rate, "Interest Rate (%)", class: "form-label" %>
+    <%= f.number_field :interest_rate, class: "form-control #{'is-invalid' if @loan.errors[:interest_rate].present?}", required: true, step: 0.01 %>
+    <% if @loan.errors[:interest_rate].present? %>
+      <div class="invalid-feedback d-block">
+        <%= @loan.errors[:interest_rate].first %>
+      </div>
+    <% end %>
   </div>
-  <div>
-    <%= f.submit "Request Loan" %>
-  </div>
+
+  <%= f.submit "Request Loan", class: "btn btn-primary" %>
 <% end %>

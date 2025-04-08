@@ -9,50 +9,16 @@
   <td><%= time_ago_in_words(loan.updated_at) %></td>
   <td>
     <% if loan.requested? %>
-      <%= link_to "Approve Without Adjustment", approve_admin_loan_path(loan), data: { turbo_method: :patch, turbo_confirm: "Are you sure you want to approve this loan?" }, 
-                  class: "btn btn-success btn-sm" %>
-
-      <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#adjustmentModal_<%= loan.id %>">
-        Approve With Adjustment
-      </button>
+      <%= link_to "Approve Without Adjustment", approve_admin_loan_path(loan), data: { turbo_method: :patch, turbo_confirm: "Are you sure you want to approve this loan?" }, class: "btn btn-success btn-sm" %>
+      <%= link_to "Approve With Adjustment", get_modal_popup_admin_loan_path(loan), data: { turbo_frame: "_top", turbo_action: "replace", turbo_method: :get, turbo: false, remote: true }, "data-controller": "modal", class: "btn btn-success btn-sm" %>
       <%= link_to "Reject", reject_admin_loan_path(loan), data: { turbo_method: :patch, turbo_confirm: "Are you sure? You want to Reject this Loan ?" }, class: "btn btn-danger btn-sm" %>
     <% elsif loan.readjustment_requested? %>
       <%= link_to "Reject Adjustment", reject_admin_loan_path(loan, type: 'reject_adjustment'), data: { turbo_method: :patch }, class: "btn btn-danger btn-sm" %>
-      <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#adjustmentModal_<%= loan.id %>">
-        Add Re-adjustment
-      </button>
+      <%= link_to "Add Re-adjustment", get_modal_popup_admin_loan_path(loan), data: { turbo_frame: "_top", turbo_action: "replace", turbo_method: :get, turbo: false, remote: true }, "data-controller": "modal", class: "btn btn-success btn-sm" %>
     <% else %>
       <%= 'none' %>
     <% end %>
   </td>
+  <td><%= link_to "Show", loan_path(loan), class: "btn btn-danger btn-sm" %></td>
 </tr>
 
-
-<turbo-frame id="modal">
-  <div class="modal fade" id="adjustmentModal_<%= loan.id %>" tabindex="-1" aria-labelledby="adjustmentModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="adjustmentModalLabel">Approve with Adjustment</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <%= form_with model: loan, url: approve_admin_loan_path(loan), method: :patch, data: { turbo_frame: "modal" } do |f| %>
-            <div class="mb-3">
-              <%= f.label :adjusted_amount, "Adjusted Amount" %>
-              <%= f.number_field :adjusted_amount, class: "form-control", required: true %>
-            </div>
-            <div class="mb-3">
-              <%= f.label :adjusted_interest_rate, "Adjusted Interest Rate (%)" %>
-              <%= f.number_field :adjusted_interest_rate, class: "form-control", required: true %>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-              <%= f.submit "Submit", class: "btn btn-primary" %>
-            </div>
-          <% end %>
-        </div>
-      </div>
-    </div>
-  </div>
-</turbo-frame>

@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
+  require 'sidekiq/web'
+  mount Sidekiq::Web => '/sidekiq'
   root 'home#index'
-  devise_for :admins
+  # devise_for :admins
   devise_for :users
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
@@ -18,6 +20,7 @@ Rails.application.routes.draw do
     resources :loans, only: [:index] do
       member do
         patch :approve
+        get :get_modal_popup
         patch :reject
         patch :confirm
       end

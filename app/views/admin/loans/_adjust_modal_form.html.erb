@@ -1,0 +1,36 @@
+<%= turbo_frame_tag :remote_modal, target: :_top do %>
+	<div class="modal fade" data-controller="turbo-modal">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h1 class="modal-title fs-5" id="exampleModalLabel">Loan Adjusment Form</h1>
+	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	      </div>
+	      <div class="modal-body">
+	      	<% if loan.errors.any? %>
+					  <div class="alert alert-danger">
+					    <% loan.errors.full_messages.each do |msg| %>
+					      <p><%= msg %></p>
+					    <% end %>
+					  </div>
+					<% end %>
+
+	      	<%= form_with model: loan, url: approve_admin_loan_path(loan), method: :patch do |f| %>
+	          <div class="mb-3">
+	            <%= f.label :adjusted_amount, "Adjusted Amount" %>
+	            <%= f.number_field :adjusted_amount, class: "form-control", required: true %>
+	          </div>
+	          <div class="mb-3">
+	            <%= f.label :adjusted_interest_rate, "Adjusted Interest Rate (%)" %>
+	            <%= f.number_field :adjusted_interest_rate, class: "form-control", required: true %>
+	          </div>
+	          <div class="modal-footer">
+	            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+	            <%= f.submit "Submit", class: "btn btn-primary", data: { action: "click->turbo-modal#submitEnd" } %>
+	          </div>
+	        <% end %>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+<% end %>
