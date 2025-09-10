@@ -62,7 +62,7 @@ gem 'devise'   # Authentication
 gem 'pundit'   # Authorization
 gem 'sidekiq'  # Background jobs
 gem 'redis'    # Sidekiq dependency
-gem 'redis-client', '~> 0.24.0'
+gem 'redis-client', '~> 0.25.3'
 gem "bootstrap"
 gem "sassc-rails"
 gem 'jquery-rails'
